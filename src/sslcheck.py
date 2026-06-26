@@ -106,15 +106,15 @@ def main():
     else:
         status = "OK"
     print("=" * 100)
-    print(f"Host.........................: {args.host}:{args.port}")
-    print(f"Emitido para.................: {emitido_para}")
-    print(f"Emitido por..................: {emitido_por}")
-    print(F"Subject Alternative Names....:")
+    print(f"{'Host':.<30}: {args.host}:{args.port}")
+    print(f"{'Emitido para':.<30}: {emitido_para}")
+    print(f"{'Emitido por':.<30}: {emitido_por}")
+    print(f"{'Subject Alternative Names':.<30}:")
     for tipo, valor in cert["subjectAltName"]:
-        print(f"                  {tipo:<11}: {valor}") 
-    print(f"Expira em....................: {data_expiracao_local}")
-    print(f"Dias restantes...............: {dias_restantes}")
-    print(f"Status.......................: {status}")
+        print(f"{'': <4}{tipo:<26}: {valor}") 
+    print(f"{'Expira em':.<30}: {data_expiracao_local}")
+    print(f"{'Dias restantes':.<30}: {dias_restantes}")
+    print(f"{'Status':.<30}: {status}")
     print("=" * 100)
 
 if __name__ == "__main__":
