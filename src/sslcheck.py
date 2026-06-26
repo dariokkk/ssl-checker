@@ -4,19 +4,16 @@ import socket
 
 from datetime import datetime, UTC
 
-port = 443
-
 def consultar_certificado(host, port):
     """
     Consulta o certificado SSL/TLS de um host remoto.
-
     Argumentos:
         host: Nome do host.
         port: Porta TCP.
-
     Returns:
         dict contendo o certificado.
     """
+
     contexto = ssl.create_default_context()
 
     with contexto.wrap_socket(
@@ -38,18 +35,25 @@ def obter_campo(campo, nome):
         for chave, valor in item:
             if chave == nome:
                 return valor
-
     return "N/D"
+
+def imprimir_campo(rotulo, valor="", largura=28, indent=0,fill="."):
+    """
+    Função de apresentação.
+    Imprime os campos de forma organizada:
+        Chave, Valor, Largura de preenchimento(default=28), indentação(opcional), char preenchimento (opcional).
+    """
+
+    espacos = " " * indent
+    print(f"{espacos}{rotulo:{fill}<{largura}}: {valor}")
 
 def main():
     """
     Função principal.
-
     Obtem parâmetros (URL e Porta)
-
     Exibe data de expiração e de dias restantes de validade do certificado.
-        
     """
+
     parser = argparse.ArgumentParser(
         description="Verificador de certificados SSL/TLS"
     )
@@ -106,15 +110,15 @@ def main():
     else:
         status = "OK"
     print("=" * 100)
-    print(f"{'Host':.<30}: {args.host}:{args.port}")
-    print(f"{'Emitido para':.<30}: {emitido_para}")
-    print(f"{'Emitido por':.<30}: {emitido_por}")
-    print(f"{'Subject Alternative Names':.<30}:")
+    imprimir_campo("Host", f"{args.host}:{args.port}")
+    imprimir_campo("Emitido para", emitido_para)
+    imprimir_campo("Emitido por", emitido_por)
+    imprimir_campo("Subject Alternative Names","")
     for tipo, valor in cert["subjectAltName"]:
-        print(f"{'': <4}{tipo:<26}: {valor}") 
-    print(f"{'Expira em':.<30}: {data_expiracao_local}")
-    print(f"{'Dias restantes':.<30}: {dias_restantes}")
-    print(f"{'Status':.<30}: {status}")
+        imprimir_campo(tipo,valor,24,4,"_")
+    imprimir_campo("Expira em",data_expiracao_local)
+    imprimir_campo("Dias restantes",dias_restantes)
+    imprimir_campo("Status",status)
     print("=" * 100)
 
 if __name__ == "__main__":
