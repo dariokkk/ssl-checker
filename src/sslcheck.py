@@ -29,6 +29,17 @@ def consultar_certificado(host, port):
 
         return conexao.getpeercert()
 
+def obter_campo(campo, nome):
+    """
+    Extrai um atributo do subject ou issuer do certificado.
+    """
+
+    for item in campo:
+        for chave, valor in item:
+            if chave == nome:
+                return valor
+
+    return "N/D"
 
 def main():
     """
@@ -74,6 +85,8 @@ def main():
         print(mensagem_erro)
         print(e)
         return
+    emitido_para = obter_campo(cert["subject"], "commonName")
+    emitido_por = obter_campo(cert["issuer"], "organizationName")
 
     agora_utc = datetime.now(UTC)
     agora_local = datetime.now().astimezone()
@@ -86,10 +99,23 @@ def main():
     data_expiracao_local = data_expiracao_utc.astimezone(timezone_local)
 
     dias_restantes = (data_expiracao_utc - agora_utc).days
-
-    print(f"Host............: {args.host}")
-    print(f"Expira em.......: {data_expiracao_local}")
-    print(f"Dias restantes..: {dias_restantes}")
+    if dias_restantes < 0:
+        status = "EXPIRADO"
+    elif dias_restantes <= 30:
+        status = "ALERTA"
+    else:
+        status = "OK"
+    print("=" * 100)
+    print(f"Host.........................: {args.host}:{args.port}")
+    print(f"Emitido para.................: {emitido_para}")
+    print(f"Emitido por..................: {emitido_por}")
+    print(F"Subject Alternative Names....:")
+    for tipo, valor in cert["subjectAltName"]:
+        print(f"                  {tipo:<11}: {valor}") 
+    print(f"Expira em....................: {data_expiracao_local}")
+    print(f"Dias restantes...............: {dias_restantes}")
+    print(f"Status.......................: {status}")
+    print("=" * 100)
 
 if __name__ == "__main__":
     main()
