@@ -1,4 +1,3 @@
-
 import ssl
 import socket
 
@@ -25,7 +24,7 @@ def obter_campo(campo, nome):
     """
     Extrai um atributo do subject ou issuer do certificado.
     """
-    
+
     for item in campo:
         for chave, valor in item:
             if chave == nome:
