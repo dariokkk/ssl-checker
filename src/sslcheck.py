@@ -1,6 +1,7 @@
 import argparse
 import socket
 import ssl
+import sys
 
 from datetime import datetime, UTC
 import output
@@ -16,9 +17,12 @@ def main():
     parser = argparse.ArgumentParser(
         description="Verificador de certificados SSL/TLS"
     )
+    if len(sys.argv) == 1:
+        parser.print_help()
+        return
     parser.add_argument(
-        "--host",
-        help="Host a ser consultado"
+        "host",
+        help="Host a ser consultado."
     )
     parser.add_argument(
         "--port",
