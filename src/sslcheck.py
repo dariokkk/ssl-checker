@@ -4,6 +4,7 @@ import ssl
 import sys
 
 from datetime import datetime, UTC
+from certificate_info import CertificateInfo
 import output
 import certificate
 
@@ -72,7 +73,17 @@ def main():
     else:
         status = "OK"
     
-    output.imprimir_saida(args.host, args.port, emitido_para, emitido_por, cert["subjectAltName"], data_expiracao_local, dias_restantes, status)
+    info = CertificateInfo(
+        host=args.host,
+        port=args.port,
+        common_name=emitido_para,
+        issuer=emitido_por,
+        expiration=data_expiracao_local,
+        days_remaining=dias_restantes,
+        status=status,
+        sans=cert["subjectAltName"]
+    )
+    output.imprimir_certificado(info)
 
 if __name__ == "__main__":
     main()
