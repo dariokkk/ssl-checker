@@ -7,22 +7,21 @@ Ferramenta para verificação de certificados SSL/TLS.
 - Consulta certificado remoto
 - Exibe validade
 - Calcula dias restantes
+- Permite múltipla consulta baseada em arquivo com lista de hosts (v0.3.0)
 
 Exemplo de uso:
 python src/sslcheck.py www.github.com --port 443
 
 Exemplo de saída:
-'====================================================================================================
-Host........................: www.github.com:443
-Emitido para................: github.com
-Emitido por.................: Sectigo Limited
-Subject Alternative Names...: 
-    DNS_____________________: github.com
-    DNS_____________________: www.github.com
-Expira em...................: 2026-08-02 20:59:59-03:00
-Dias restantes..............: 33
-Status......................: OK
-===================================================================================================='
+- Host........................: www.github.com:443
+- Emitido para................: github.com
+- Emitido por.................: Sectigo Limited
+- Subject Alternative Names...: 
+- -    DNS_____________________: github.com
+- -    DNS_____________________: www.github.com
+- Expira em...................: 2026-08-02 20:59:59-03:00
+- Dias restantes..............: 33
+- Status......................: OK
 
 ## Autor
 
