@@ -25,3 +25,4 @@ def imprimir_certificado(info: CertificateInfo):
     imprimir_campo("Dias restantes", info.days_remaining)
     imprimir_campo("Status", info.status)
     print("=" * 100)
+    #print(info)
