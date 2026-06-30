@@ -1,10 +1,8 @@
+from datetime import datetime, UTC
 import argparse
 import socket
 import ssl
 import sys
-
-from datetime import datetime, UTC
-from certificate_info import CertificateInfo
 import output
 import certificate
 import hostlist
@@ -43,8 +41,8 @@ def main():
         parser.error("Use apenas 'host' ou '--list', não ambos.")
 
     if args.host:
-        Target = [
-            Target(
+        targets = [
+            hostlist.Target(
                 host=args.host,
                 port=args.port
             )
@@ -59,20 +57,14 @@ def main():
                 target.host,
                 target.port
             )
-    #        cert = certificate.consultar_certificado(
-    #            args.host,
-    #            args.port
-    #            )
         except socket.gaierror:
             print(mensagem_erro)
             print(f"{target.host}:{target.port} - Host não encontrado")
             return
-
         except TimeoutError:
             print(mensagem_erro)
             print(f"{target.host}:{target.port} - Timeout")
             return
-
         except ssl.SSLError as e:
             print(mensagem_erro)
             print(f"{target.host}:{target.port} - {e}")
@@ -97,7 +89,7 @@ def main():
         else:
             status = "OK"
         
-        info = CertificateInfo(
+        info = certificate.CertificateInfo(
             host=target.host,
             port=target.port,
             common_name=emitido_para,

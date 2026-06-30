@@ -1,4 +1,4 @@
-from certificate_info import CertificateInfo
+import certificate
 
 def imprimir_campo(rotulo, valor="", largura=28, indent=0,fill="."):
     """
@@ -10,7 +10,7 @@ def imprimir_campo(rotulo, valor="", largura=28, indent=0,fill="."):
     espacos = " " * indent
     print(f"{espacos}{rotulo:{fill}<{largura}}: {valor}")
 
-def imprimir_certificado(info: CertificateInfo):
+def imprimir_certificado(info: certificate.CertificateInfo):
     """
     Imprime as informações do certificado avaliado
     """
@@ -25,4 +25,3 @@ def imprimir_certificado(info: CertificateInfo):
     imprimir_campo("Dias restantes", info.days_remaining)
     imprimir_campo("Status", info.status)
     print("=" * 100)
-    #print(info)
